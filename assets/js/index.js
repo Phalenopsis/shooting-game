@@ -74,14 +74,30 @@ function animate() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     player.draw(ctx);
-    projectiles.forEach((projectile) => projectile.update(ctx));
+    projectiles.forEach((projectile, index) => {
+        if (
+            projectile.x - projectile.radius < 0 ||
+            projectile.x + projectile.radius > canvas.width ||
+            projectile.y - projectile.radius < 0 ||
+            projectile.y + projectile.radius > canvas.height
+        ) {
+            projectiles.splice(index, 1);
+        }
 
+        projectile.update(ctx);
+    });
     enemies.forEach((enemy, enemyIndex) => {
         projectiles.forEach((projectile, projectileIndex) => {
             const distance = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
             if (distance - projectile.radius - enemy.radius <= 0) {
-                enemies.splice(enemyIndex, 1);
-                projectiles.splice(projectileIndex, 1);
+                if (enemy.radius - 10 > 5) {
+                    gsap.to(enemy, {
+                        radius: enemy.radius - 10,
+                    });
+                } else {
+                    enemies.splice(enemyIndex, 1);
+                    projectiles.splice(projectileIndex, 1);
+                }
             }
         });
         const distBetweenEnemyAndPlayer = Math.hypot(enemy.x - player.x, enemy.y - player.y);

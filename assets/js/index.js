@@ -65,14 +65,16 @@ function spawnEnemies() {
 }
 
 
+let animationId;
 
 function animate() {
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
 
     ctx.fillStyle = "rgb(0, 0, 0, 1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     player.draw(ctx);
+    projectiles.forEach((projectile) => projectile.update(ctx));
 
     enemies.forEach((enemy, enemyIndex) => {
         projectiles.forEach((projectile, projectileIndex) => {
@@ -82,10 +84,13 @@ function animate() {
                 projectiles.splice(projectileIndex, 1);
             }
         });
+        const distBetweenEnemyAndPlayer = Math.hypot(enemy.x - player.x, enemy.y - player.y);
+        if (distBetweenEnemyAndPlayer - enemy.radius - player.radius <= 0) {
+            console.log("touched");
+            cancelAnimationFrame(animationId);
+        }
         enemy.update(ctx);
     });
-
-    projectiles.forEach((projectile) => projectile.update(ctx));
 }
 spawnEnemies();
 animate();

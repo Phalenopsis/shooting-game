@@ -74,9 +74,16 @@ function animate() {
 
     player.draw(ctx);
 
-    for (let enemy of enemies) {
+    enemies.forEach((enemy, enemyIndex) => {
+        projectiles.forEach((projectile, projectileIndex) => {
+            const distance = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
+            if (distance - projectile.radius - enemy.radius <= 0) {
+                enemies.splice(enemyIndex, 1);
+                projectiles.splice(projectileIndex, 1);
+            }
+        });
         enemy.update(ctx);
-    }
+    });
 
     projectiles.forEach((projectile) => projectile.update(ctx));
 }

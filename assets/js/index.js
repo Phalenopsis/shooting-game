@@ -3,7 +3,7 @@ import { Projectile } from "./classes/Projectile.js";
 import { Enemy } from "./classes/Enemy.js";
 import { getRandomInt, getRandomHslColor, getEnnemyOrigin } from "./genericfunctions.js";
 
-const SPEED_PROJECTILES = 2;
+const SPEED_PROJECTILES = 5;
 const SPEED_ENNEMIES = 2;
 
 const canvas = document.getElementById("game-container");
@@ -30,8 +30,8 @@ window.addEventListener("click", (e) => {
         y: Math.sin(angle) * SPEED_PROJECTILES
     };
     const projectile = new Projectile(
-        e.clientX,
-        e.clientY,
+        player.x,
+        player.y,
         5,
         "white",
         velocity
@@ -43,7 +43,8 @@ window.addEventListener("click", (e) => {
 const enemies = [];
 
 function spawnEnemies() {
-    for (let i = 0; i < 5; i += 1) {
+    setInterval(() => {
+
         const ennemyOrigin = getEnnemyOrigin();
         const velocityX = getRandomInt(-2, 2);
         const velocityY = getRandomInt(-2, 2);
@@ -59,7 +60,8 @@ function spawnEnemies() {
         };
         const enemy = new Enemy(ennemyOrigin.x, ennemyOrigin.y, radius, color, { x: velocity.x, y: velocity.y });
         enemies.push(enemy);
-    }
+
+    }, 1000);
 }
 
 

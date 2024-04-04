@@ -1,9 +1,10 @@
 import { Player } from "./classes/Player.js";
 import { Projectile } from "./classes/Projectile.js";
 import { Enemy } from "./classes/Enemy.js";
-import { getRandomInt, getRandomHslColor } from "./genericfunctions.js";
+import { getRandomInt, getRandomHslColor, getEnnemyOrigin } from "./genericfunctions.js";
 
 const SPEED_PROJECTILES = 2;
+const SPEED_ENNEMIES = 2;
 
 const canvas = document.getElementById("game-container");
 canvas.width = window.innerWidth;
@@ -43,15 +44,20 @@ const enemies = [];
 
 function spawnEnemies() {
     for (let i = 0; i < 5; i += 1) {
-        const x = getRandomInt(window.innerWidth);
-        const y = getRandomInt(window.innerHeight);
+        const ennemyOrigin = getEnnemyOrigin();
         const velocityX = getRandomInt(-2, 2);
         const velocityY = getRandomInt(-2, 2);
         const radius = getRandomInt(4, 30);
         const color = getRandomHslColor();
-
-
-        const enemy = new Enemy(x, y, radius, color, { x: velocityX, y: velocityY });
+        const angle = Math.atan2(
+            player.x - ennemyOrigin.y,
+            player.y - ennemyOrigin.x
+        );
+        const velocity = {
+            x: Math.cos(angle) * SPEED_ENNEMIES,
+            y: Math.sin(angle) * SPEED_ENNEMIES
+        };
+        const enemy = new Enemy(ennemyOrigin.x, ennemyOrigin.y, radius, color, { x: velocity.x, y: velocity.y });
         enemies.push(enemy);
     }
 }

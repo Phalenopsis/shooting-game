@@ -11,7 +11,7 @@ export function getRandomInt(value1, value2 = undefined) {
 export function getRandomHslColor() {
     const hue = getRandomInt(360);
     const saturation = getRandomInt(100);
-    const luminosity = getRandomInt(100);
+    const luminosity = getRandomInt(40, 100);
 
     return `hsl(${hue} ${saturation}% ${luminosity}%)`
 }

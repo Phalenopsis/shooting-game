@@ -17,7 +17,7 @@ export class Particle extends Enemy {
     }
 
     update(ctx) {
-        this.draw();
+        this.draw(ctx);
         this.x += this.velocity.x;
         this.y += this.velocity.y;
         this.alpha -= 0.01;

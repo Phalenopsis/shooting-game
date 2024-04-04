@@ -5,4 +5,11 @@ export class Projectile extends Player {
         super(x, y, radius, color);
         this.velocity = velocity;
     }
+
+    update(ctx) {
+        this.draw(ctx);
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+    }
+    
 }

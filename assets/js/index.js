@@ -1,7 +1,7 @@
 import { Player } from "./classes/Player.js";
 import { Projectile } from "./classes/Projectile.js";
 import { Enemy } from "./classes/Enemy.js";
-import { getRandomInt } from "./genericfunctions.js";
+import { getRandomInt, getRandomHslColor } from "./genericfunctions.js";
 
 const SPEED_PROJECTILES = 2;
 
@@ -41,14 +41,19 @@ window.addEventListener("click", (e) => {
 
 const enemies = [];
 
-for (let i = 0; i < 5; i += 1) {
-    const x = getRandomInt(window.innerWidth);
-    const y = getRandomInt(window.innerHeight);
-    const velocityX = getRandomInt(-2, 2);
-    const velocityY = getRandomInt(-2, 2);
+function spawnEnemies() {
+    for (let i = 0; i < 5; i += 1) {
+        const x = getRandomInt(window.innerWidth);
+        const y = getRandomInt(window.innerHeight);
+        const velocityX = getRandomInt(-2, 2);
+        const velocityY = getRandomInt(-2, 2);
+        const radius = getRandomInt(4, 30);
+        const color = getRandomHslColor();
 
-    const enemy = new Enemy(x, y, 30, 'green', { x: velocityX, y: velocityY });
-    enemies.push(enemy);
+
+        const enemy = new Enemy(x, y, radius, color, { x: velocityX, y: velocityY });
+        enemies.push(enemy);
+    }
 }
 
 
@@ -67,4 +72,6 @@ function animate() {
 
     projectiles.forEach((projectile) => projectile.update(ctx));
 }
+spawnEnemies();
 animate();
+

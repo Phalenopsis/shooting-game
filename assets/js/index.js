@@ -19,8 +19,6 @@ const game = new Game(
     ctx
 )
 
-game.player.draw(game.ctx);
-
 window.addEventListener("click", (e) => {
     game.fireProjectile(e);
 });

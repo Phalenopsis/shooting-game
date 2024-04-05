@@ -1,5 +1,6 @@
 import { Player } from "./classes/Player.js";
 import { Game } from "./classes/Game.js";
+import { Listener } from "./classes/Listerner.js";
 
 export function animate() {
     game.resetDisplay();
@@ -18,10 +19,10 @@ const game = new Game(
     canvas,
     ctx
 )
+const listener = new Listener(game);
 
-window.addEventListener("click", (e) => {
-    game.fireProjectile(e);
-});
+
+listener.listen()
 game.spawnEnemies(game);
 animate();
 

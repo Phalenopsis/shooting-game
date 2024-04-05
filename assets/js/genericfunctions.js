@@ -1,3 +1,5 @@
+import { SPEED_PROJECTILES } from "./constant.js";
+
 export function getRandomInt(value1, value2 = undefined) {
     if (value2 === undefined) {
         const max = value1;
@@ -16,26 +18,16 @@ export function getRandomHslColor() {
     return `hsl(${hue} ${saturation}% ${luminosity}%)`
 }
 
-export function getEnnemyOrigin() {
-    const maxWidth = window.innerWidth;
-    const maxHeight = window.innerHeight;
-    const dirInt = getRandomInt(4);
-    switch (dirInt) {
-        case 0:
-            return { x: 0, y: getRandomInt(maxHeight) };
-            break;
-        case 1:
-            return { x: maxWidth, y: getRandomInt(maxHeight) };
-            break;
-        case 2:
-            return { x: getRandomInt(maxWidth), y: 0 };
-            break;
-        case 3:
-            return { x: getRandomInt(maxWidth), y: maxHeight };
-            break;
+export function calcAngle(referencePoint, event) {
+    return Math.atan2(
+        event.clientY - referencePoint.y,
+        event.clientX - referencePoint.x
+    );
+}
 
-        default:
-            throw new Error("Le nombre de getEnnemyOrigin est trop grand ou trop petit");
-            break;
-    }
+export function getVelocity(angle) {
+    return {
+        x: Math.cos(angle) * SPEED_PROJECTILES,
+        y: Math.sin(angle) * SPEED_PROJECTILES
+    };
 }
